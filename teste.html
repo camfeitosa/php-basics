@@ -1,0 +1,200 @@
+
+### **Tabela: `Employees`**
+Armazena informações sobre os funcionários.
+
+| EmployeeID | Name        | DepartmentID | HireDate   | Salary  |
+|------------|-------------|--------------|------------|---------|
+| 1          | Alice       | 101          | 2020-01-15 | 5000.00 |
+| 2          | Bob         | 102          | 2018-06-01 | 4500.00 |
+| 3          | Charlie     | 101          | 2019-03-20 | 5200.00 |
+| 4          | Diana       | 103          | 2021-07-10 | 4800.00 |
+| 5          | Eve         | 102          | 2017-09-12 | 4700.00 |
+
+---
+
+### **Tabela: `Departments`**
+Armazena informações sobre os departamentos.
+
+| DepartmentID | DepartmentName |
+|--------------|----------------|
+| 101          | Sales          |
+| 102          | HR             |
+| 103          | IT             |
+
+---
+
+### **Tabela: `Projects`**
+Armazena informações sobre os projetos e os funcionários atribuídos.
+
+| ProjectID | ProjectName      | EmployeeID |
+|-----------|------------------|------------|
+| 1         | Website Upgrade  | 1          |
+| 2         | Employee Training| 2          |
+| 3         | App Development  | 3          |
+| 4         | Server Migration | 4          |
+| 5         | Recruitment      | 2          |
+| 6         | Client Outreach  | 1          |
+
+---
+
+### **Consultas de Exemplo**
+
+1. **Seleção simples:**
+   - Liste todos os funcionários com salário superior a 4500.
+   ```sql
+
+      SELECT * FROM Employees WHERE Salary > 4500
+
+   ```
+
+2. **Join básico:**
+   - Liste os nomes dos funcionários e o nome de seus departamentos.
+   ```sql
+
+      SELECT Name, DepartmentName  FROM Employees JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID
+
+   ```   
+
+3. **Join avançado:**
+   - Liste os nomes dos funcionários junto com os projetos nos quais estão trabalhando.
+   ```sql
+
+      
+
+   ```
+
+
+   ### **Enunciado: Criando um Encurtador de Links**
+
+Você foi contratado para desenvolver um **encurtador de links**, como o famoso **Bitly**. O objetivo do sistema é permitir que usuários insiram um URL longo (como `https://www.exemplo.com/alguma-pagina-muito-longa`) e recebam um link curto (como `https://encurta.io/abc123`) que redirecione para o URL original.
+
+---
+
+**Requisitos do Sistema:**
+
+1. **Inserir Link Original**:
+   - O sistema deve permitir que o usuário insira um URL longo.
+   - O link deve ser validado para garantir que seja um URL válido.
+
+2. **Gerar Link Curto**:
+   - O sistema deve gerar um identificador único e curto (ex.: `abc123`) para cada URL original.
+   - O link curto deve ser armazenado junto ao URL original em um banco de dados ou estrutura de dados simples.
+
+3. **Redirecionar**:
+   - Quando o link curto for acessado, o sistema deve redirecionar o usuário para o URL original.
+
+4. **Persistência**:
+   - Os links gerados devem ser armazenados para que continuem funcionando mesmo após o sistema ser reiniciado.
+
+5. **Exemplo de Fluxo**:
+   - O usuário insere: `https://www.exemplo.com/artigo-importante`.
+   - O sistema retorna: `https://encurta.io/xyz789`.
+   - Quando `https://encurta.io/xyz789` for acessado, o usuário será redirecionado para `https://www.exemplo.com/artigo-importante`.
+
+   
+<!-- 
+ Objetivo: enviar os dados do formulario para a rota /process.php enviando os dados via AJAX do Front
+ para o Back e retornar a resposta do servidor para o front. 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário com AJAX</title>
+</head>
+<body>
+    <h1>Cadastro de Usuário</h1>
+
+    <form id="userForm" action="./process.php" method="post" >
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+
+        <label for="age">Idade:</label>
+        <input type="number" id="age" name="age" required>
+        <br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <div id="result" style="margin-top: 20px; color: green;"></div>
+</body>
+
+<script> 
+    const name = getELementById("name")
+    const email = getELementById("email")
+
+    
+
+
+</script>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário com AJAX</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("userForm");
+            const resultDiv = document.getElementById("result");
+
+            form.addEventListener("submit", (event) => {
+                event.preventDefault(); // Impede o envio tradicional do formulário
+
+                const formData = new FormData(form);
+
+                fetch('./process.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Erro na solicitação: " + response.status);
+                    }
+                    return response.text(); // Pode ser JSON ou texto simples
+                })
+                .then(data => {
+                    resultDiv.textContent = data;
+                    resultDiv.style.color = "green";
+                })
+                .catch(error => {
+                    resultDiv.textContent = `Erro: ${error.message}`;
+                    resultDiv.style.color = "red";
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Cadastro de Usuário</h1>
+
+    <form id="userForm" action="./process.php" method="post">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+
+        <label for="age">Idade:</label>
+        <input type="number" id="age" name="age" required>
+        <br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <div id="result" style="margin-top: 20px;"></div>
+</body>
+</html>
